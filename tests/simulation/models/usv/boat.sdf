@@ -1,0 +1,173 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <model name="usv_boat">
+    <static>false</static>
+    
+    <link name="hull">
+      <pose>0 0 0.3 0 0 0</pose>
+      <inertial>
+        <mass>50</mass>
+        <inertia>
+          <ixx>8.33</ixx>
+          <iyy>50</iyy>
+          <izz>54.17</izz>
+        </inertia>
+      </inertial>
+      
+      <visual name="hull_visual">
+        <geometry>
+          <box>
+            <size>3 1.5 0.5</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0.8 0.8 0.8 1</ambient>
+          <diffuse>0.8 0.8 0.8 1</diffuse>
+        </material>
+      </visual>
+      
+      <collision name="hull_collision">
+        <geometry>
+          <box>
+            <size>3 1.5 0.5</size>
+          </box>
+        </geometry>
+      </collision>
+      
+      <!-- IMU -->
+      <sensor name="imu_sensor" type="imu">
+        <always_on>true</always_on>
+        <update_rate>50</update_rate>
+        <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
+          <robotNamespace>/usv</robotNamespace>
+          <topicName>imu/data</topicName>
+        </plugin>
+      </sensor>
+      
+      <!-- GPS -->
+      <sensor name="gps" type="gps">
+        <always_on>true</always_on>
+        <update_rate>10</update_rate>
+        <plugin filename="libgazebo_ros_gps_sensor.so" name="gps_plugin">
+          <robotNamespace>/usv</robotNamespace>
+          <topicName>gps/fix</topicName>
+        </plugin>
+      </sensor>
+      
+      <!-- Camera -->
+      <sensor name="camera" type="camera">
+        <pose>1.5 0 0.3 0 0 0</pose>
+        <camera>
+          <horizontal_fov>1.047</horizontal_fov>
+          <image>
+            <width>1280</width>
+            <height>720</height>
+          </image>
+        </camera>
+        <always_on>true</always_on>
+        <update_rate>30</update_rate>
+        <plugin filename="libgazebo_ros_camera.so" name="camera_plugin">
+          <robotNamespace>/usv</robotNamespace>
+          <imageTopicName>camera/image_raw</imageTopicName>
+        </plugin>
+      </sensor>
+      
+      <!-- Lidar for obstacle detection -->
+      <sensor name="lidar" type="ray">
+        <pose>0 0 0.5 0 0 0</pose>
+        <ray>
+          <scan>
+            <horizontal>
+              <samples>360</samples>
+              <resolution>1</resolution>
+              <min_angle>-3.14159</min_angle>
+              <max_angle>3.14159</max_angle>
+            </horizontal>
+          </scan>
+          <range>
+            <min>0.5</min>
+            <max>100</max>
+          </range>
+        </ray>
+        <always_on>true</always_on>
+        <update_rate>10</update_rate>
+        <plugin filename="libgazebo_ros_laser.so" name="lidar_plugin">
+          <robotNamespace>/usv</robotNamespace>
+          <topicName>scan</topicName>
+          <frameName>lidar_link</frameName>
+        </plugin>
+      </sensor>
+      
+      <!-- Water Depth Sensor -->
+      <sensor name="depth_sensor" type="ray">
+        <pose>0 0 -0.25 0 1.57 0</pose>
+        <ray>
+          <scan>
+            <horizontal>
+              <samples>1</samples>
+              <resolution>1</resolution>
+              <min_angle>0</min_angle>
+              <max_angle>0</max_angle>
+            </horizontal>
+          </scan>
+          <range>
+            <min>0.1</min>
+            <max>50</max>
+          </range>
+        </ray>
+        <always_on>true</always_on>
+        <update_rate>10</update_rate>
+        <plugin filename="libgazebo_ros_range.so" name="depth_plugin">
+          <robotNamespace>/usv</robotNamespace>
+          <topicName>water_depth</topicName>
+          <radiation>ultrasound</radiation>
+        </plugin>
+      </sensor>
+    </link>
+    
+    <!-- Left Thruster -->
+    <link name="left_thruster">
+      <pose>-1.4 0.5 0 0 0 0</pose>
+    </link>
+    <joint name="left_thruster_joint" type="continuous">
+      <parent>hull</parent>
+      <child>left_thruster</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+      </axis>
+    </joint>
+    
+    <!-- Right Thruster -->
+    <link name="right_thruster">
+      <pose>-1.4 -0.5 0 0 0 0</pose>
+    </link>
+    <joint name="right_thruster_joint" type="continuous">
+      <parent>hull</parent>
+      <child>right_thruster</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+      </axis>
+    </joint>
+    
+    <!-- Buoyancy Plugin -->
+    <plugin filename="libgazebo_ros_buoyancy.so" name="buoyancy_plugin">
+      <robotNamespace>/usv</robotNamespace>
+      <waterLevel>0</waterLevel>
+      <waterDensity>1000</waterDensity>
+      <dragCoeff>0.5</dragCoeff>
+      <buoyancy>
+        <linkName>hull</linkName>
+        <centerOfBuoyancy>0 0 -0.1</centerOfBuoyancy>
+        <buoyantForce>490</buoyantForce>
+      </buoyancy>
+    </plugin>
+    
+    <!-- Thruster Plugin -->
+    <plugin filename="libgazebo_ros_thruster.so" name="thruster_plugin">
+      <robotNamespace>/usv</robotNamespace>
+      <leftThrusterTopic>thrusters/left</leftThrusterTopic>
+      <rightThrusterTopic>thrusters/right</rightThrusterTopic>
+      <maxForce>100</maxForce>
+    </plugin>
+  </model>
+</sdf>

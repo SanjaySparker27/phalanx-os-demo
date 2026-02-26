@@ -1,0 +1,87 @@
+# Default Training Configuration for Robotics RL
+
+# World Model Configuration
+world_model:
+  state_dim: 256
+  action_dim: 4  # [throttle, roll, pitch, yaw]
+  observation_dim: 64
+  hidden_dim: 256
+  num_layers: 2
+  learning_rate: 0.0001
+  batch_size: 32
+  sequence_length: 50
+  kl_weight: 1.0
+  reward_weight: 1.0
+
+# Policy Configuration
+policy:
+  state_dim: 256
+  action_dim: 4
+  hidden_dim: 256
+  num_layers: 3
+  ppo_clip: 0.2
+  ppo_epochs: 10
+  value_coef: 0.5
+  entropy_coef: 0.01
+  gamma: 0.99
+  gae_lambda: 0.95
+  learning_rate: 0.0003
+  batch_size: 64
+
+# SAC Configuration (alternative)
+sac:
+  tau: 0.005
+  alpha: 0.2
+  automatic_entropy_tuning: true
+  buffer_size: 1000000
+
+# Dreamer Configuration
+dreamer:
+  batch_size: 32
+  sequence_length: 50
+  imagine_horizon: 15
+  discount: 0.99
+  lambda_: 0.95
+  kl_balance: 0.8
+  pretrain_steps: 100
+  train_steps: 1000
+
+# Supervised Learning Configuration
+supervised:
+  input_dim: 64
+  output_dim: 4
+  hidden_dim: 256
+  num_layers: 3
+  dropout: 0.2
+  learning_rate: 0.001
+  batch_size: 32
+  num_epochs: 100
+  sequence_length: 10
+
+# Training Schedule
+training:
+  num_iterations: 1000
+  steps_per_iteration: 2048
+  eval_frequency: 10
+  save_frequency: 100
+
+# Data Collection
+data:
+  num_episodes: 100
+  max_episode_length: 1000
+  render: false
+  save_trajectories: true
+
+# Hardware
+hardware:
+  device: "cuda"  # or "cpu"
+  num_workers: 4
+  pin_memory: true
+
+# Logging
+logging:
+  log_dir: "training/logs"
+  tensorboard: true
+  wandb: false
+  wandb_project: "robotics-rl"
+  print_frequency: 10

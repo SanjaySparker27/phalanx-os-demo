@@ -1,0 +1,338 @@
+/dts-v1/;
+/plugin/;
+
+/**
+ * Device Tree Overlay for Cule OS on NVIDIA Jetson AGX Orin
+ * 
+ * This overlay configures hardware resources for the Cule real-time
+ * kernel including:
+ * - Reserved memory for RT heap and neural checkpoint buffers
+ * - CPU isolation for real-time tasks
+ * - Hardware timer configuration
+ * - SMMU settings for agent isolation
+ * - Thermal management
+ * 
+ * Target: Jetson AGX Orin (p3737-0000 + p3701-0000)
+ */
+
+#include <dt-bindings/clock/tegra234-clock.h>
+#include <dt-bindings/interrupt-controller/arm-gic.h>
+#include <dt-bindings/memory/tegra234-mc.h>
+
+/ {
+	overlay-name = "Cule OS Real-Time Kernel";
+	compatible = "nvidia,p3737-0000+p3701-0000", "nvidia,jetson-agx-orin";
+	
+	fragment@0 {
+		target-path = "/";
+		__overlay__ {
+			/**
+			 * Reserved memory regions for Cule OS
+			 */
+			reserved-memory {
+				#address-cells = <2>;
+				#size-cells = <2>;
+				ranges;
+				
+				/* RT Heap: 512MB for real-time task stacks and heap */
+				cule_rt_heap: cule-rt-heap@B8000000 {
+					compatible = "shared-dma-pool";
+					reg = <0x0 0xB8000000 0x0 0x20000000>;
+					label = "cule-rt-heap";
+					no-map;
+				};
+				
+				/* Neural Checkpoint Buffers: 1GB for layer-wise checkpointing */
+				cule_neural_buf: cule-neural-buf@D8000000 {
+					compatible = "shared-dma-pool";
+					reg = <0x0 0xD8000000 0x0 0x40000000>;
+					label = "cule-neural-buffers";
+					no-map;
+					linux,dma-default;
+				};
+				
+				/* IPC Shared Memory: 256MB for zero-copy message passing */
+				cule_ipc_mem: cule-ipc-mem@180000000 {
+					compatible = "shared-dma-pool";
+					reg = <0x1 0x80000000 0x0 0x10000000>;
+					label = "cule-ipc-mem";
+					no-map;
+				};
+				
+				/* Agent Isolation Memory: 512MB partitioned per agent */
+				cule_agent_mem: cule-agent-mem@190000000 {
+					compatible = "shared-dma-pool";
+					reg = <0x1 0x90000000 0x0 0x20000000>;
+					label = "cule-agent-mem";
+					no-map;
+				};
+			};
+			
+			/**
+			 * Cule OS Kernel Node
+			 */
+			cule-kernel {
+				compatible = "cule,kernel-1.0";
+				status = "okay";
+				
+				/* Memory pools */
+				memory-region = <&cule_rt_heap>, <&cule_neural_buf>, 
+						<&cule_ipc_mem>, <&cule_agent_mem>;
+				memory-region-names = "rt-heap", "neural-buffers", 
+						      "ipc-mem", "agent-mem";
+				
+				/* Scheduler configuration */
+				scheduler {
+					tick-frequency-hz = <1000>;           /* 1kHz tick */
+					max-tasks = <256>;
+					max-agents = <64>;
+					nis-timeout-us = <50000>;             /* 50ms max NIS */
+					enable-tt = <1>;
+					enable-edf = <1>;
+					enable-fp = <1>;
+				};
+				
+				/* Neural server configuration */
+				neural-server {
+					max-models = <32>;
+					max-layers = <512>;
+					checkpoint-buffers = <16>;
+					preempt-latency-us = <100>;           /* 100us target */
+					enable-dla = <1>;                     /* Deep Learning Accelerator */
+					enable-pva = <1>;                     /* Programmable Vision Accelerator */
+					max-batch-size = <8>;
+				};
+				
+				/* Memory protection configuration */
+				memory-protection {
+					enable-smmu = <1>;
+					enable-stage2 = <1>;
+					max-regions = <1024>;
+					page-size = <4096>;
+					huge-page-size = <2097152>;           /* 2MB huge pages */
+				};
+				
+				/* IPC configuration */
+				ipc {
+					ring-size = <256>;                    /* Messages per ring */
+					max-channels = <256>;
+					max-endpoints = <512>;
+					zero-copy-threshold = <1024>;         /* Bytes */
+				};
+			};
+		};
+	};
+	
+	/**
+	 * CPU isolation for real-time tasks
+	 * Reserve CPU cores 4-7 for RT tasks
+	 */
+	fragment@1 {
+		target-path = "/cpus";
+		__overlay__ {
+			cpu@4 {
+				isolated = <1>;
+				cule,rt-cpu = <1>;
+			};
+			cpu@5 {
+				isolated = <1>;
+				cule,rt-cpu = <1>;
+			};
+			cpu@6 {
+				isolated = <1>;
+				cule,rt-cpu = <1>;
+			};
+			cpu@7 {
+				isolated = <1>;
+				cule,rt-cpu = <1>;
+			};
+		};
+	};
+	
+	/**
+	 * Timer configuration for high-resolution scheduling
+	 */
+	fragment@2 {
+		target-path = "/timer";
+		__overlay__ {
+			cule,sched-timer {
+				compatible = "cule,sched-timer";
+				clock-frequency = <19200000>;         /* 19.2 MHz */
+				interrupt-parent = <&gic>;
+				interrupts = <GIC_PPI 13 IRQ_TYPE_LEVEL_HIGH>;
+			};
+		};
+	};
+	
+	/**
+	 * SMMU configuration for agent memory isolation
+	 */
+	fragment@3 {
+		target = <&smmu>;
+		__overlay__ {
+			cule,agent-isolation;
+			cule,num-stream-ids = <64>;
+			
+			/* Stream ID mapping for agents */
+			stream-map {
+				#address-cells = <1>;
+				#size-cells = <0>;
+				
+				agent0: stream@0 {
+					reg = <0>;
+					agent-id = <0>;
+					label = "kernel";
+				};
+				
+				agent1: stream@1 {
+					reg = <1>;
+					agent-id = <1>;
+					label = "navigation";
+				};
+				
+				agent2: stream@2 {
+					reg = <2>;
+					agent-id = <2>;
+					label = "perception";
+				};
+				
+				agent3: stream@3 {
+					reg = <3>;
+					agent-id = <3>;
+					label = "planning";
+				};
+				
+				agent4: stream@4 {
+					reg = <4>;
+					agent-id = <4>;
+					label = "communication";
+				};
+				
+				agent5: stream@5 {
+					reg = <5>;
+					agent-id = <5>;
+					label = "safety";
+				};
+			};
+		};
+	};
+	
+	/**
+	 * DLA (Deep Learning Accelerator) configuration
+	 */
+	fragment@4 {
+		target = <&dla0>;
+		__overlay__ {
+			cule,neural-accelerator;
+			cule,checkpoint-supported;
+			cule,max-layers = <128>;
+			cule,preemptible-layers = <4>;
+			
+			/* Reserved memory for DLA */
+			memory-region = <&cule_neural_buf>;
+		};
+	};
+	
+	fragment@5 {
+		target = <&dla1>;
+		__overlay__ {
+			cule,neural-accelerator;
+			cule,checkpoint-supported;
+			cule,max-layers = <128>;
+			cule,preemptible-layers = <4>;
+			
+			memory-region = <&cule_neural_buf>;
+		};
+	};
+	
+	/**
+	 * PVA (Programmable Vision Accelerator) configuration
+	 */
+	fragment@6 {
+		target = <&pva0>;
+		__overlay__ {
+			cule,neural-accelerator;
+			cule,vision-accelerator;
+			cule,max-layers = <64>;
+			
+			memory-region = <&cule_neural_buf>;
+		};
+	};
+	
+	/**
+	 * Thermal management for real-time safety
+	 */
+	fragment@7 {
+		target-path = "/thermal-zones";
+		__overlay__ {
+			cule-thermal: cule-thermal {
+				compatible = "cule,thermal-governor";
+				
+				/* Thermal limits for RT operation */
+				trip-point-0 {
+					temperature = <85000>;            /* 85C - warning */
+					type = "passive";
+					cule,action = "throttle";
+				};
+				
+				trip-point-1 {
+					temperature = <95000>;            /* 95C - critical */
+					type = "critical";
+					cule,action = "safety-trigger";
+				};
+			};
+		};
+	};
+	
+	/**
+	 * Hardware watchdog for safety
+	 */
+	fragment@8 {
+		target-path = "/";
+		__overlay__ {
+			cule-watchdog {
+				compatible = "cule,watchdog";
+				interrupt-parent = <&gic>;
+				interrupts = <GIC_SPI 0 IRQ_TYPE_LEVEL_HIGH>;
+				
+				/* Watchdog timeouts */
+				timeout-sec = <5>;                    /* 5 second watchdog */
+				panic-timeout-sec = <1>;              /* 1 second on panic */
+				
+				/* Agent watchdogs */
+				agent-watchdogs = <64>;
+				safety-timeout-ms = <100>;            /* Safety agent timeout */
+				sched-timeout-ms = <50>;              /* Scheduler timeout */
+			};
+		};
+	};
+	
+	/**
+	 * GPIO configuration for safety outputs
+	 */
+	fragment@9 {
+		target = <&gpio>;
+		__overlay__ {
+			cule-safety-gpio {
+				compatible = "cule,safety-gpio";
+				gpio-controller;
+				#gpio-cells = <2>;
+				
+				/* Safety kill switch output */
+				safety-kill {
+					gpio-hog;
+					output-low;
+					gpios = <TEGRA234_MAIN_GPIO(M, 0) GPIO_ACTIVE_HIGH>;
+					label = "safety-kill-switch";
+				};
+				
+				/* Hardware interlock input */
+				hw-interlock {
+					input;
+					gpios = <TEGRA234_MAIN_GPIO(M, 1) GPIO_ACTIVE_LOW>;
+					label = "hardware-interlock";
+				};
+			};
+		};
+	};
+};

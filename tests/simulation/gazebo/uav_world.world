@@ -1,0 +1,140 @@
+<?xml version="1.0"?>
+<sdf version="1.6">
+  <world name="uav_world">
+    <!-- Physics -->
+    <physics name="default_physics" default="true" type="ode">
+      <real_time_update_rate>1000</real_time_update_rate>
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+    </physics>
+
+    <!-- Scene -->
+    <scene>
+      <ambient>0.4 0.4 0.4 1</ambient>
+      <background>0.7 0.7 0.7 1</background>
+      <shadows>true</shadows>
+    </scene>
+
+    <!-- Ground Plane -->
+    <model name="ground_plane">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>1000 1000</size>
+            </plane>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>100</mu>
+                <mu2>50</mu2>
+              </ode>
+            </friction>
+          </surface>
+        </collision>
+        <visual name="visual">
+          <cast_shadows>false</cast_shadows>
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>1000 1000</size>
+            </plane>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Grey</name>
+            </script>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Sun -->
+    <light type="directional" name="sun">
+      <cast_shadows>true</cast_shadows>
+      <pose>0 0 10 0 0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <attenuation>
+        <range>1000</range>
+        <constant>0.9</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <direction>-0.5 0.1 -0.9</direction>
+    </light>
+
+    <!-- Takeoff/Landing Zone -->
+    <model name="landing_zone">
+      <static>true</static>
+      <pose>0 0 0.01 0 0 0</pose>
+      <link name="link">
+        <visual name="visual">
+          <geometry>
+            <box>
+              <size>2 2 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0 0.5 0 1</ambient>
+            <diffuse>0 0.5 0 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Obstacles -->
+    <model name="obstacle_1">
+      <static>true</static>
+      <pose>10 5 2.5 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <box>
+              <size>1 1 5</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box>
+              <size>1 1 5</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.8 0.2 0.2 1</ambient>
+            <diffuse>0.8 0.2 0.2 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Wind Plugin -->
+    <plugin name="wind_plugin" filename="libgazebo_ros_wind.so">
+      <wind_topic>/world/uav_world/wind</wind_topic>
+      <wind_velocity_mean>2.0</wind_velocity_mean>
+      <wind_velocity_max>10.0</wind_velocity_max>
+      <wind_velocity_variance>0.5</wind_velocity_variance>
+      <wind_direction_mean>0.0</wind_direction_mean>
+      <wind_direction_variance>0.2</wind_direction_variance>
+    </plugin>
+
+    <!-- GPS Plugin -->
+    <plugin name="gps_plugin" filename="libgazebo_ros_gps.so">
+      <robot_namespace>/uav</robot_namespace>
+      <topic_name>/gps/fix</topic_name>
+      <velocity_topic_name>/gps/vel</velocity_topic_name>
+      <reference_latitude>37.7749</reference_latitude>
+      <reference_longitude>-122.4194</reference_longitude>
+      <reference_altitude>0.0</reference_altitude>
+      <offset>0 0 0</offset>
+      <drift>0.0001 0.0001 0.0001</drift>
+      <gaussian_noise>0.01 0.01 0.01</gaussian_noise>
+      <velocity_gaussian_noise>0.05 0.05 0.05</velocity_gaussian_noise>
+    </plugin>
+  </world>
+</sdf>

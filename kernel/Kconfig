@@ -1,0 +1,147 @@
+# Cule OS Kernel Configuration
+# SPDX-License-Identifier: GPL-2.0
+
+menuconfig CULE_KERNEL
+	tristate "Cule OS Real-Time Kernel Support"
+	depends on PREEMPT_RT
+	depends on ARM64
+	help
+	  Enable Cule OS real-time kernel modules for autonomous systems.
+	  
+	  Cule OS provides:
+	  - Time-triggered (TT) and NIS scheduling
+	  - Preemptible neural inference with layer-wise checkpointing
+	  - Memory protection between agents
+	  - Zero-copy IPC
+	  
+	  This is designed for NVIDIA Jetson AGX Orin and other ARM64
+	  platforms running PREEMPT_RT Linux.
+
+if CULE_KERNEL
+
+config CULE_RT_SCHEDULER
+	tristate "Real-Time Scheduler"
+	default y
+	help
+	  Enable the Cule real-time scheduler with support for:
+	  - Time-Triggered (TT) scheduling
+	  - Earliest Deadline First (EDF)
+	  - Fixed Priority (FP) scheduling
+	  - Non-Interruptible Sections (NIS)
+	  
+	  Provides deterministic scheduling for safety-critical tasks.
+
+config CULE_RT_TICK_HZ
+	int "Scheduler tick frequency (Hz)"
+	default 1000
+	depends on CULE_RT_SCHEDULER
+	help
+	  The base tick frequency for the Cule scheduler.
+	  Default is 1000 Hz (1ms resolution).
+	  
+	  Higher frequencies provide better resolution but increase overhead.
+
+config CULE_RT_MAX_TASKS
+	int "Maximum number of RT tasks"
+	default 256
+	depends on CULE_RT_SCHEDULER
+	help
+	  Maximum number of real-time tasks that can be registered.
+
+config CULE_NEURAL_SERVER
+	tristate "Neural Inference Server"
+	default y
+	help
+	  Enable the Cule neural inference server with:
+	  - Layer-wise checkpointing for preemption
+	  - Support for DLA, PVA, GPU accelerators
+	  - Deterministic inference timing
+	  
+	  Required for AI workloads in real-time systems.
+
+config CULE_NEURAL_CHECKPOINT_BUFS
+	int "Number of checkpoint buffers"
+	default 16
+	depends on CULE_NEURAL_SERVER
+	help
+	  Number of layer checkpoint buffers allocated per model.
+	  More buffers allow more preemptions but use more memory.
+
+config CULE_NEURAL_PREEMPT_US
+	int "Target preemption latency (microseconds)"
+	default 100
+	depends on CULE_NEURAL_SERVER
+	help
+	  Target latency for neural inference preemption.
+	  Lower values provide better RT response but may reduce throughput.
+
+config CULE_MEMORY_PROTECTION
+	tristate "Memory Protection Subsystem"
+	default y
+	help
+	  Enable memory protection between agents:
+	  - Per-agent virtual address spaces
+	  - Hardware-backed isolation via MMU/SMMU
+	  - Shared memory regions with access control
+	  
+	  Provides fault isolation between agents.
+
+config CULE_MEM_MAX_REGIONS
+	int "Maximum memory regions"
+	default 1024
+	depends on CULE_MEMORY_PROTECTION
+	help
+	  Maximum number of protected memory regions system-wide.
+
+config CULE_MEM_ENABLE_SMMU
+	bool "Enable SMMU isolation"
+	default y
+	depends on CULE_MEMORY_PROTECTION
+	depends on ARM_SMMU
+	help
+	  Use ARM SMMU for hardware-level DMA isolation between agents.
+
+config CULE_IPC
+	tristate "Zero-Copy IPC Subsystem"
+	default y
+	help
+	  Enable high-performance inter-agent communication:
+	  - Lock-free ring buffers
+	  - Zero-copy for messages > 1KB
+	  - Cache-optimized data structures
+	  
+	  Required for low-latency agent communication.
+
+config CULE_IPC_RING_SIZE
+	int "IPC ring buffer size (messages)"
+	default 256
+	depends on CULE_IPC
+	help
+	  Number of messages per IPC ring buffer.
+	  Larger rings reduce drops but use more memory.
+
+config CULE_IPC_MAX_CHANNELS
+	int "Maximum IPC channels"
+	default 256
+	depends on CULE_IPC
+	help
+	  Maximum number of IPC channels between agent pairs.
+
+config CULE_SAFETY
+	bool "Safety Features"
+	default y
+	help
+	  Enable safety features:
+	  - NIS violation detection
+	  - Deadline miss monitoring
+	  - Hardware watchdog integration
+	  - Safety GPIO outputs
+
+config CULE_DEBUG
+	bool "Debug Mode"
+	default n
+	help
+	  Enable debug output and tracing.
+	  Significantly impacts performance - use only for development.
+
+endif # CULE_KERNEL
