@@ -191,7 +191,7 @@ RC8_TRIM = 1000          # Center/threshold position
 
 ## Developer
 
-**Sanjay**
+**[Sanjay](https://sanjaysparker27.github.io/sanjay-sparker-portfolio)**
 - Custom firmware for ZEX ATHENA H743 PRO
 - HEXA X + Pusher VTOL configuration
 - Direct C++ modifications to ArduPilot
