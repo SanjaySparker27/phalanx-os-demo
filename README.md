@@ -12,6 +12,8 @@ This repository contains the **complete custom firmware package** for the **ZEX 
   - **0-16%** slider position → **Loiter Mode**
   - **>16%** slider position → **Stabilize Mode**
 
+**IMPORTANT**: This is a **pure custom firmware** - no Lua scripting required! All mode switching logic is compiled directly into the firmware C++ source code.
+
 ## Hardware Specifications
 
 | Feature | Specification |
@@ -34,13 +36,12 @@ Athena-H743-Pro-Custom-Firmware/
 ├── README.md                           # This file
 ├── DAKEFPVH743Pro_Custom_Config.md     # Detailed configuration documentation
 ├── athena_h743pro_params.param         # Parameter configuration file
-├── mode_switch.lua                     # Lua script for custom mode switching
 │
 ├── Firmware/                           # Pre-built firmware files
 │   ├── arducopter_dakefph743pro.apj         # Main firmware (1.3MB)
 │   └── arducopter_dakefph743pro_bl.hex      # Firmware with bootloader (5MB)
 │
-├── source_modifications/               # Source code modifications
+├── source_modifications/               # Source code modifications (C++)
 │   ├── ArduCopter/
 │   │   ├── RC_Channel.cpp              # Modified for custom mode switching
 │   │   ├── RC_Channel.h                # Header with new function declaration
@@ -76,18 +77,9 @@ Athena-H743-Pro-Custom-Firmware/
 3. Click **Load from file** → Select `athena_h743pro_params.param`
 4. Click **Write Params** and reboot
 
-### 3. Install Lua Script (Required for Custom Mode Switching)
+**No Lua Script Required!** The custom mode switching is built directly into the firmware.
 
-1. Insert SD card into computer
-2. Create folder `/APM/scripts/` on SD card
-3. Copy `mode_switch.lua` to `/APM/scripts/`
-4. Insert SD card into flight controller
-5. Enable scripting:
-   - Set parameter `SCR_ENABLE = 1`
-   - Set parameter `SCR_HEAP_SIZE = 102400`
-6. Reboot
-
-### 4. Verify Setup
+### 3. Verify Setup
 
 1. **RC Calibration**: Calibrate RC8 (left slider) in Mission Planner
 2. **Motor Test**: Use "Motor Test" to verify correct motor order
@@ -133,13 +125,11 @@ FRAME_CLASS = 2          # Hexa
 FRAME_TYPE = 13          # X configuration
 SERVO7_FUNCTION = 51     # RCIN8 passthrough (pusher motor)
 FLTMODE_CH = 8           # Use RC8 for mode switching
-SCR_ENABLE = 1           # Enable Lua scripting
-SCR_HEAP_SIZE = 102400   # Script memory allocation
 ```
 
 ## Source Code Modifications
 
-This firmware includes custom modifications to the ArduPilot codebase:
+This firmware includes **custom C++ modifications** to the ArduPilot codebase - no Lua scripting needed:
 
 ### 1. RC_Channel.cpp
 Added `custom_slider_mode_switch()` function that monitors RC8 and switches modes based on slider percentage (0-16% = Loiter, >16% = Stabilize).
@@ -152,49 +142,17 @@ Modified `rc_loop()` to call custom mode switch when `FLTMODE_CH = 8`.
 
 See `source_modifications/` directory for all modified files.
 
-## Troubleshooting
-
-### Pusher motor not responding to RC8
-- Check `SERVO7_FUNCTION = 51`
-- Verify RC8 is calibrated (1000-2000 range)
-- Check `RC8_OPTION = 0`
-
-### Mode not switching with slider
-- Verify Lua script is running (check "Messages" tab in Mission Planner)
-- Check `FLTMODE_CH = 8`
-- Ensure `SCR_ENABLE = 1` and `SCR_HEAP_SIZE = 102400`
-- Verify RC8 slider moves full range (1000-2000)
-
-### Motors not spinning
-- Check `ARMING_CHECK` = 0 or all checks pass
-- Verify frame class and motor order
-- Check safety switch is pressed (if equipped)
-
-### Script not loading
-- Verify SD card is formatted as FAT32
-- Check `/APM/scripts/` folder exists
-- Look for errors in "Messages" tab
-- Try increasing `SCR_HEAP_SIZE` to 150000
-
-## File Descriptions
-
-| File | Description |
-|------|-------------|
-| `arducopter_dakefph743pro.apj` | ArduCopter firmware (flash via GCS) |
-| `arducopter_dakefph743pro_bl.hex` | Firmware with bootloader (DFU flash) |
-| `athena_h743pro_params.param` | Complete parameter file for HEXA X + pusher |
-| `mode_switch.lua` | Lua script for slider-based mode switching |
-| `DAKEFPVH743Pro_Custom_Config.md` | Detailed technical documentation |
-| `ZEX_ATHENA_H743_PRO_User_Manual.pdf` | Official flight controller manual |
-
 ## Building from Source
 
-To build the firmware from source:
+To build the firmware from source with the custom modifications:
 
 ```bash
 # Clone ArduPilot repository
 git clone --depth 1 --branch Copter-4.5 https://github.com/ArduPilot/ardupilot.git
 cd ardupilot
+
+# Copy custom source modifications
+cp -r /path/to/source_modifications/ArduCopter/* ArduCopter/
 
 # Configure for DAKEFPVH743Pro
 ./waf configure --board=DAKEFPVH743Pro
@@ -204,6 +162,33 @@ cd ardupilot
 
 # Output will be in build/DAKEFPVH743Pro/bin/
 ```
+
+## Troubleshooting
+
+### Pusher motor not responding to RC8
+- Check `SERVO7_FUNCTION = 51`
+- Verify RC8 is calibrated (1000-2000 range)
+- Check `RC8_OPTION = 0`
+
+### Mode not switching with slider
+- Check `FLTMODE_CH = 8` parameter is set
+- Verify RC8 slider moves full range (1000-2000)
+- Check messages tab for "Mode changed via slider" text
+
+### Motors not spinning
+- Check `ARMING_CHECK` = 0 or all checks pass
+- Verify frame class and motor order
+- Check safety switch is pressed (if equipped)
+
+## File Descriptions
+
+| File | Description |
+|------|-------------|
+| `arducopter_dakefph743pro.apj` | ArduCopter firmware (flash via GCS) |
+| `arducopter_dakefph743pro_bl.hex` | Firmware with bootloader (DFU flash) |
+| `athena_h743pro_params.param` | Complete parameter file for HEXA X + pusher |
+| `DAKEFPVH743Pro_Custom_Config.md` | Detailed technical documentation |
+| `ZEX_ATHENA_H743_PRO_User_Manual.pdf` | Official flight controller manual |
 
 ## Support & Resources
 
