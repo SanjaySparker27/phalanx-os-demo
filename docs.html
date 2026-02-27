@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation - Cule OS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --primary: #294172;
+            --primary-dark: #1a2a4a;
+            --primary-light: #3c6eb4;
+            --accent: #e59728;
+            --text: #333;
+            --text-light: #666;
+            --bg: #fff;
+            --bg-gray: #f6f6f6;
+            --border: #e0e0e0;
+        }
+        body {
+            font-family: 'Open Sans', sans-serif;
+            color: var(--text);
+            line-height: 1.6;
+        }
+        header {
+            background: var(--primary);
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: white;
+            font-weight: 700;
+            font-size: 20px;
+        }
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--accent);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        nav a {
+            color: rgba(255,255,255,0.9);
+            text-decoration: none;
+            margin-left: 24px;
+            font-size: 14px;
+        }
+        nav a:hover { color: white; }
+        
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 100px 24px 60px;
+            text-align: center;
+        }
+        .hero h1 { font-size: 42px; margin-bottom: 16px; }
+        .hero p { font-size: 18px; opacity: 0.9; max-width: 600px; margin: 0 auto; }
+        
+        .content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 24px;
+        }
+        
+        .docs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+            margin-bottom: 48px;
+        }
+        
+        .doc-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 32px;
+            transition: all 0.3s;
+        }
+        .doc-card:hover {
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            transform: translateY(-4px);
+            border-color: var(--primary-light);
+        }
+        .doc-icon {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--primary-light), var(--primary));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: white;
+        }
+        .doc-card h3 {
+            font-size: 20px;
+            color: var(--primary);
+            margin-bottom: 12px;
+        }
+        .doc-card p {
+            color: var(--text-light);
+            margin-bottom: 20px;
+            font-size: 15px;
+        }
+        .doc-links {
+            list-style: none;
+        }
+        .doc-links li {
+            margin-bottom: 8px;
+        }
+        .doc-links a {
+            color: var(--primary-light);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .doc-links a:hover {
+            text-decoration: underline;
+        }
+        
+        .section-title {
+            font-size: 28px;
+            color: var(--primary);
+            margin-bottom: 24px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--border);
+        }
+        
+        footer {
+            background: var(--primary-dark);
+            color: white;
+            text-align: center;
+            padding: 40px 24px;
+        }
+        footer a { color: var(--accent); }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="index.html" class="logo">
+            <div class="logo-icon">C</div>
+            <span>Cule OS</span>
+        </a>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="docs.html">Documentation</a>
+            <a href="download.html">Download</a>
+            <a href="https://github.com/sanjaysparker27/cule-os" target="_blank">GitHub</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h1>Cule OS Documentation</h1>
+        <p>Complete guides, references, and tutorials for building autonomous vehicles</p>
+    </section>
+
+    <div class="content">
+        <h2 class="section-title">🚁 UAV / Drone Documentation</h2>
+        <div class="docs-grid">
+            <div class="doc-card">
+                <div class="doc-icon">🚀</div>
+                <h3>Getting Started</h3>
+                <p>Get your drone flying autonomously in 30 minutes with our step-by-step quick start guide.</p>
+                <ul class="doc-links">
+                    <li><a href="cule-os/docs/uav/quickstart.html">Quick Start Guide →</a></li>
+                    <li><a href="cule-os/docs/uav/index.html">UAV Overview →</a></li>
+                    <li><a href="cule-os/docs/GETTING_STARTED.md">Installation →</a></li>
+                </ul>
+            </div>
+            
+            <div class="doc-card">
+                <div class="doc-icon">🎮</div>
+                <h3>Flight Modes</h3>
+                <p>Master all flight modes from Manual to fully autonomous AUTO missions.</p>
+                <ul class="doc-links">
+                    <li><a href="cule-os/docs/uav/flight-modes.html">Flight Modes Guide →</a></li>
+                    <li><a href="cule-os/docs/uav/flight-modes.html#manual">Manual Modes →</a></li>
+                    <li><a href="cule-os/docs/uav/flight-modes.html#autonomous">Autonomous Modes →</a></li>
+                </ul>
+            </div>
+            
+            <div class="doc-card">
+                <div class="doc-icon">🗺️</div>
+                <h3>Mission Planning</h3>
+                <p>Create autonomous waypoint missions for survey, mapping, and delivery.</p>
+                <ul class="doc-links">
+                    <li><a href="cule-os/docs/uav/missions.html">Mission Planning →</a></li>
+                    <li><a href="cule-os/docs/uav/missions.html#survey">Survey Patterns →</a></li>
+                    <li><a href="cule-os/docs/uav/missions.html#api">Python API →</a></li>
+                </ul>
+            </div>
+            
+            <div class="doc-card">
+                <div class="doc-icon">⚠️</div>
+                <h3>Safety & Emergency</h3>
+                <p>Critical safety procedures, emergency protocols, and pre-flight checklists.</p>
+                <ul class="doc-links">
+                    <li><a href="cule-os/docs/uav/safety.html">Safety Procedures →</a></li>
+                    <li><a href="cule-os/docs/uav/safety.html#emergency">Emergency Protocols →</a></li>
+                    <li><a href="cule-os/docs/uav/safety.html#checklist">Pre-flight Checklist →</a></li>
+                </ul>
+            </div>
+            
+            <div class="doc-card">
+                <div class="doc-icon">🔧</div>
+                <h3>Troubleshooting</h3>
+                <p>Fix common issues with GPS, compass, camera, and flight controller connection.</p>
+                <ul class="doc-links">
+                    <li><a href="cule-os/docs/uav/troubleshooting.html">Troubleshooting →</a></li>
+                    <li><a href="cule-os/docs/uav/troubleshooting.html#hardware">Hardware Issues →</a></li>
+                    <li><a href="cule-os/docs/uav/troubleshooting.html#flight">Flight Issues →</a></li>
+                </ul>
+            </div>
+            
+            <div class="doc-card">
+                <div class="doc-icon">💻</div>
+                <h3>API Reference</h3>
+                <p>Python API, ROS2 topics, CLI commands, and integration guides.</p>
+                <ul class="doc-links">
+                    <li><a href="cule-os/docs/api/index.html">API Documentation →</a></li>
+                    <li><a href="cule-os/docs/README.md">System Architecture →</a></li>
+                    <li><a href="cule-os/examples/README.md">Code Examples →</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <h2 class="section-title">🔧 Hardware Setup</h2>
+        <div class="docs-grid">
+            <div class="doc-card">
+                <div class="doc-icon">🎛️</div>
+                <h3>Flight Controllers</h3>
+                <p>Pixhawk setup, configuration, and integration with companion computers.</p>
+                <ul class="doc-links">
+                    <li><a href="#">Pixhawk Setup →</a></li>
+                    <li><a href="#">Wiring Diagrams →</a></li>
+                    <li><a href="#">Parameter Tuning →</a></li>
+                </ul>
+            </div>
+            
+            <div class="doc-card">
+                <div class="doc-icon">📡</div>
+                <h3>Sensors & Telemetry</h3>
+                <p>GPS, IMU, compass, barometer, telemetry radio setup and calibration.</p>
+                <ul class="doc-links">
+                    <li><a href="#">GPS Configuration →</a></li>
+                    <li><a href="#">Sensor Calibration →</a></li>
+                    <li><a href="#">Telemetry Setup →</a></li>
+                </ul>
+            </div>
+            
+            <div class="doc-card">
+                <div class="doc-icon">📷</div>
+                <h3>Cameras & Vision</h3>
+                <p>Camera configuration, gstreamer pipelines, and computer vision setup.</p>
+                <ul class="doc-links">
+                    <li><a href="#">Camera Setup →</a></li>
+                    <li><a href="#">CSI/USB Cameras →</a></li>
+                    <li><a href="#">Vision Pipeline →</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <h2 class="section-title">🎓 Examples & Tutorials</h2>
+        <div class="docs-grid">
+            <div class="doc-card">
+                <div class="doc-icon">📁</div>
+                <h3>Code Examples</h3>
+                <p>Working Python examples for UAV missions, swarm coordination, and more.</p>
+                <ul class="doc-links">
+                    <li><a href="cule-os/examples/README.md">Examples Overview →</a></li>
+                    <li><a href="#">Basic UAV Mission →</a></li>
+                    <li><a href="#">Swarm Formation →</a></li>
+                </ul>
+            </div>
+            
+            <div class="doc-card">
+                <div class="doc-icon">🎓</div>
+                <h3>Tutorials</h3>
+                <p>Step-by-step tutorials for common tasks and advanced features.</p>
+                <ul class="doc-links">
+                    <li><a href="#">First Flight Tutorial →</a></li>
+                    <li><a href="#">Mission Planning Tutorial →</a></li>
+                    <li><a href="#">Computer Vision Setup →</a></li>
+                </ul>
+            </div>
+            
+            <div class="doc-card">
+                <div class="doc-icon">🎮</div>
+                <h3>Simulation</h3>
+                <p>Gazebo and Ignition simulation setup for safe testing.</p>
+                <ul class="doc-links">
+                    <li><a href="#">Simulation Setup →</a></li>
+                    <li><a href="#">Gazebo Worlds →</a></li>
+                    <li><a href="#">HIL Testing →</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <h2 class="section-title">💬 Community & Support</h2>
+        <div class="docs-grid">
+            <div class="doc-card">
+                <div class="doc-icon">💬</div>
+                <h3>Community Forum</h3>
+                <p>Join the discussion, share projects, and get help from the community.</p>
+                <ul class="doc-links">
+                    <li><a href="https://github.com/sanjaysparker27/cule-os/discussions" target="_blank">GitHub Discussions →</a></li>
+                    <li><a href="#">Matrix Chat →</a></li>
+                    <li><a href="#">Discord Server →</a></li>
+                </ul>
+            </div>
+            
+            <div class="doc-card">
+                <div class="doc-icon">🐛</div>
+                <h3>Report Issues</h3>
+                <p>Found a bug? Report it on GitHub with detailed information.</p>
+                <ul class="doc-links">
+                    <li><a href="https://github.com/sanjaysparker27/cule-os/issues" target="_blank">GitHub Issues →</a></li>
+                    <li><a href="#">Bug Report Template →</a></li>
+                    <li><a href="#">Feature Requests →</a></li>
+                </ul>
+            </div>
+            
+            <div class="doc-card">
+                <div class="doc-icon">🤝</div>
+                <h3>Contributing</h3>
+                <p>Want to contribute to Cule OS? Learn how to get involved.</p>
+                <ul class="doc-links">
+                    <li><a href="#">Contributing Guide →</a></li>
+                    <li><a href="#">Code of Conduct →</a></li>
+                    <li><a href="#">Development Setup →</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2026 Cule OS. Built for autonomous vehicles.</p>
+        <p><a href="https://sanjaysparker27.github.io/sanjay-sparker-portfolio" target="_blank">Created by Sanjay</a></p>
+    </footer>
+</body>
+</html>
