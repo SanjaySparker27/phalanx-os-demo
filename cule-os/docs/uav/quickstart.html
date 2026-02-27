@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Start - Cule OS UAV</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --primary: #294172;
+            --primary-dark: #1a2a4a;
+            --primary-light: #3c6eb4;
+            --accent: #e59728;
+            --text: #333;
+            --text-light: #666;
+            --bg: #fff;
+            --bg-gray: #f6f6f6;
+            --border: #e0e0e0;
+            --code-bg: #f4f4f4;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            color: var(--text);
+            line-height: 1.7;
+        }
+        header {
+            background: var(--primary);
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: white;
+            font-weight: 700;
+            font-size: 20px;
+        }
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--accent);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        nav a {
+            color: rgba(255,255,255,0.9);
+            text-decoration: none;
+            margin-left: 24px;
+            font-size: 14px;
+        }
+        nav a:hover { color: white; }
+        
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 68px;
+            bottom: 0;
+            width: 280px;
+            background: var(--bg-gray);
+            border-right: 1px solid var(--border);
+            overflow-y: auto;
+            padding: 24px;
+        }
+        .sidebar h3 {
+            font-size: 14px;
+            color: var(--text-light);
+            text-transform: uppercase;
+            margin: 24px 0 12px;
+        }
+        .sidebar h3:first-child { margin-top: 0; }
+        .sidebar a {
+            display: block;
+            padding: 8px 12px;
+            color: var(--text);
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        .sidebar a:hover, .sidebar a.active {
+            background: white;
+            color: var(--primary);
+        }
+        
+        .content {
+            margin-left: 280px;
+            padding: 40px;
+            max-width: 900px;
+        }
+        h1 { font-size: 36px; color: var(--primary); margin-bottom: 16px; }
+        h2 { font-size: 28px; color: var(--primary); margin: 40px 0 20px; border-bottom: 2px solid var(--border); padding-bottom: 12px; }
+        h3 { font-size: 22px; color: var(--primary); margin: 32px 0 16px; }
+        p { margin-bottom: 16px; }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        th {
+            background: var(--bg-gray);
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        code {
+            background: var(--code-bg);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'Consolas', monospace;
+            font-size: 14px;
+        }
+        pre {
+            background: var(--code-bg);
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+        pre code { padding: 0; background: none; }
+        
+        ul, ol { margin: 16px 0 16px 24px; }
+        li { margin: 8px 0; }
+        
+        .notice {
+            background: #e0f2fe;
+            border-left: 4px solid var(--primary-light);
+            padding: 16px 20px;
+            margin: 24px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .notice.warning {
+            background: #fef3c7;
+            border-left-color: var(--accent);
+        }
+        .notice.danger {
+            background: #fee2e2;
+            border-left-color: #dc2626;
+        }
+        
+        .step {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            margin: 24px 0;
+        }
+        .step h3 {
+            margin-top: 0;
+            color: var(--primary);
+        }
+        
+        @media (max-width: 1024px) {
+            .sidebar { display: none; }
+            .content { margin-left: 0; padding: 24px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="logo">
+            <div class="logo-icon">C</div>
+            <span>Cule OS</span>
+        </a>
+        <nav>
+            <a href="../../../index.html">Home</a>
+            <a href="../../../docs.html">Documentation</a>
+            <a href="../../../download.html">Download</a>
+            <a href="https://github.com/sanjaysparker27/cule-os" target="_blank">GitHub</a>
+        </nav>
+    </header>
+
+    <aside class="sidebar">
+        <h3>UAV Documentation</h3>
+        <a href="index.html">Overview</a>
+        <a href="quickstart.html" class="active">Quick Start</a>
+        <a href="flight-modes.html">Flight Modes</a>
+        <a href="missions.html">Mission Planning</a>
+        <a href="safety.html">Safety Procedures</a>
+        <a href="troubleshooting.html">Troubleshooting</a>
+        
+        <h3>Other Editions</h3>
+        <a href="../ugv/index.html">Terra UGV</a>
+        <a href="../usv/index.html">Aqua USV</a>
+        <a href="../core/index.html">Core Dev</a>
+        
+        <h3>Resources</h3>
+        <a href="../hardware/index.html">Hardware</a>
+        <a href="../api/index.html">API Reference</a>
+    </aside>
+
+    <main class="content">
+        <h1>Cule OS UAV - Quick Start Guide</h1>
+        <p><strong>Get your drone flying autonomously in 30 minutes</strong></p>
+        
+        <h2>Prerequisites</h2>
+        
+        <h3>Required Hardware</h3>
+        <table>
+            <tr>
+                <th>Component</th>
+                <th>Recommended</th>
+                <th>Alternative</th>
+            </tr>
+            <tr>
+                <td>Flight Controller</td>
+                <td>Pixhawk 6X</td>
+                <td>Pixhawk 4, Cube Orange</td>
+            </tr>
+            <tr>
+                <td>Companion Computer</td>
+                <td>NVIDIA Jetson Orin Nano</td>
+                <td>Raspberry Pi 5</td>
+            </tr>
+            <tr>
+                <td>GPS</td>
+                <td>u-blox NEO-M9N</td>
+                <td>u-blox NEO-M8N</td>
+            </tr>
+            <tr>
+                <td>Telemetry</td>
+                <td>Holybro SiK 915MHz</td>
+                <td>RFD900x</td>
+            </tr>
+            <tr>
+                <td>Camera</td>
+                <td>Raspberry Pi Camera v3</td>
+                <td>USB Webcam</td>
+            </tr>
+        </table>
+        
+        <div class="notice warning">
+            <strong>⚠️ Safety Notice:</strong> Always remove propellers before calibration and initial setup. Have a safety pilot ready for first flights.
+        </div>
+        
+        <div class="step">
+            <h3>Step 1: Flash Cule OS (5 minutes)</h3>
+            <pre><code># Download latest release
+wget https://sanjaysparker27.github.io/cule-os/releases/cule-os-axon-v1.0.img.xz
+
+# Identify your SD card (be careful!)
+lsblk
+
+# Flash to SD card (replace sdX with your device)
+sudo xzcat cule-os-axon-jetson-v1.0.img.xz | sudo dd of=/dev/sdX bs=4M status=progress
+
+# Sync and eject
+sync
+sudo eject /dev/sdX</code></pre>
+        </div>
+        
+        <div class="step">
+            <h3>Step 2: Hardware Assembly (10 minutes)</h3>
+            <p><strong>Wiring Steps:</strong></p>
+            <ol>
+                <li><strong>Connect Flight Controller to Jetson</strong> - USB-C to USB-A cable</li>
+                <li><strong>Connect GPS Module</strong> → Pixhawk GPS1 port</li>
+                <li><strong>Connect Telemetry Radio</strong> → Pixhawk TELEM1 port</li>
+                <li><strong>Connect Camera</strong> - CSI ribbon cable to Jetson</li>
+            </ol>
+        </div>
+        
+        <div class="step">
+            <h3>Step 3: First Boot & Configuration (10 minutes)</h3>
+            <p>1. Insert SD card into Jetson</p>
+            <p>2. Connect flight controller USB</p>
+            <p>3. Power on (12V-5V buck converter recommended)</p>
+            <p>4. Wait 2-3 minutes for first boot</p>
+            <p>5. Connect to WiFi network <code>Cule-OS-Setup</code></p>
+            
+            <pre><code># SSH into Cule OS
+ssh cule@192.168.4.1
+# Password: culeos
+
+# Run configuration wizard
+sudo cule-config</code></pre>
+        </div>
+        
+        <div class="step">
+            <h3>Step 4: Sensor Calibration (10 minutes)</h3>
+            
+            <div class="notice danger">
+                <strong>⚠️ REMOVE PROPELLERS BEFORE CALIBRATION</strong>
+            </div>
+            
+            <pre><code># Compass Calibration
+sudo cule-calibrate compass
+
+# Follow prompts:
+# 1. Hold drone level, rotate 360°
+# 2. Tilt nose down, rotate 360°
+# 3. Tilt left side down, rotate 360°
+# 4. Hold nose up, rotate 360°
+
+# Accelerometer Calibration
+sudo cule-calibrate accel
+
+# Place drone in each position as prompted</code></pre>
+        </div>
+        
+        <div class="step">
+            <h3>Step 5: First Flight Test</h3>
+            
+            <p><strong>Pre-Flight Checklist:</strong></p>
+            <ul>
+                <li>Props securely attached (check rotation direction!)</li>
+                <li>Battery fully charged (16.8V for 4S)</li>
+                <li>GPS lock (3D fix, HDOP &lt; 2.0)</li>
+                <li>Safety pilot ready with RC transmitter</li>
+                <li>Flight area clear of people/obstacles</li>
+            </ul>
+            
+            <pre><code># ARM in STABILIZE mode
+cule-arm --mode stabilize
+
+# Test Altitude Hold
+cule-mode alt_hold
+
+# Test Loiter
+cule-mode loiter
+
+# Return to Launch
+cule-mode rtl
+
+# Land
+cule-land
+cule-disarm</code></pre>
+        </div>
+        
+        <h2>Next Steps</h2>
+        
+        <ul>
+            <li><a href="flight-modes.html">Learn Flight Modes</a> - Master all flight modes</li>
+            <li><a href="missions.html">Plan Missions</a> - Create autonomous missions</li>
+            <li><a href="safety.html">Safety Procedures</a> - Critical safety information</li>
+            <li><a href="troubleshooting.html">Troubleshooting</a> - Fix common issues</li>
+        </ul>
+        
+        <div class="notice">
+            <strong>Need Help?</strong> Join our community forum or check the troubleshooting guide.
+        </div>
+    </main>
+</body>
+</html>

@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UAV Edition - Cule OS</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --primary: #294172;
+            --primary-dark: #1a2a4a;
+            --primary-light: #3c6eb4;
+            --accent: #e59728;
+            --text: #333;
+            --text-light: #666;
+            --bg: #fff;
+            --bg-gray: #f6f6f6;
+            --border: #e0e0e0;
+            --code-bg: #f4f4f4;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            color: var(--text);
+            line-height: 1.7;
+        }
+        header {
+            background: var(--primary);
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: white;
+            font-weight: 700;
+            font-size: 20px;
+        }
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--accent);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        nav a {
+            color: rgba(255,255,255,0.9);
+            text-decoration: none;
+            margin-left: 24px;
+            font-size: 14px;
+        }
+        nav a:hover { color: white; }
+        
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 68px;
+            bottom: 0;
+            width: 280px;
+            background: var(--bg-gray);
+            border-right: 1px solid var(--border);
+            overflow-y: auto;
+            padding: 24px;
+        }
+        .sidebar h3 {
+            font-size: 14px;
+            color: var(--text-light);
+            text-transform: uppercase;
+            margin: 24px 0 12px;
+        }
+        .sidebar h3:first-child { margin-top: 0; }
+        .sidebar a {
+            display: block;
+            padding: 8px 12px;
+            color: var(--text);
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        .sidebar a:hover, .sidebar a.active {
+            background: white;
+            color: var(--primary);
+        }
+        
+        .content {
+            margin-left: 280px;
+            padding: 40px;
+            max-width: 900px;
+        }
+        h1 { font-size: 36px; color: var(--primary); margin-bottom: 16px; }
+        h2 { font-size: 28px; color: var(--primary); margin: 40px 0 20px; border-bottom: 2px solid var(--border); padding-bottom: 12px; }
+        h3 { font-size: 22px; color: var(--primary); margin: 32px 0 16px; }
+        p { margin-bottom: 16px; }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        th {
+            background: var(--bg-gray);
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        code {
+            background: var(--code-bg);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'Consolas', monospace;
+            font-size: 14px;
+        }
+        pre {
+            background: var(--code-bg);
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+        pre code { padding: 0; background: none; }
+        
+        ul, ol { margin: 16px 0 16px 24px; }
+        li { margin: 8px 0; }
+        
+        .notice {
+            background: #e0f2fe;
+            border-left: 4px solid var(--primary-light);
+            padding: 16px 20px;
+            margin: 24px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .notice.warning {
+            background: #fef3c7;
+            border-left-color: var(--accent);
+        }
+        
+        @media (max-width: 1024px) {
+            .sidebar { display: none; }
+            .content { margin-left: 0; padding: 24px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="logo">
+            <div class="logo-icon">C</div>
+            <span>Cule OS</span>
+        </a>
+        <nav>
+            <a href="../../../index.html">Home</a>
+            <a href="../../../docs.html">Documentation</a>
+            <a href="../../../download.html">Download</a>
+            <a href="https://github.com/sanjaysparker27/cule-os" target="_blank">GitHub</a>
+        </nav>
+    </header>
+
+    <aside class="sidebar">
+        <h3>UAV Documentation</h3>
+        <a href="index.html" class="active">Overview</a>
+        <a href="quickstart.html">Quick Start</a>
+        <a href="flight-modes.html">Flight Modes</a>
+        <a href="missions.html">Mission Planning</a>
+        <a href="safety.html">Safety Procedures</a>
+        <a href="troubleshooting.html">Troubleshooting</a>
+        
+        <h3>Other Editions</h3>
+        <a href="../ugv/index.html">Terra UGV</a>
+        <a href="../usv/index.html">Aqua USV</a>
+        <a href="../core/index.html">Core Dev</a>
+        
+        <h3>Resources</h3>
+        <a href="../hardware/index.html">Hardware</a>
+        <a href="../api/index.html">API Reference</a>
+    </aside>
+
+    <main class="content">
+        <h1>Cule OS UAV - Axon Edition</h1>
+        
+        <p>The leading autonomous aerial platform for multirotor, fixed-wing, and VTOL vehicles.</p>
+        
+        <h2>Overview</h2>
+        <p>Axon UAV Edition provides a complete autonomous flight stack for drones, featuring:</p>
+        
+        <ul>
+            <li><strong>Precision Landing</strong> - Computer vision-based landing with 5cm accuracy</li>
+            <li><strong>Obstacle Avoidance</strong> - Real-time LiDAR and camera-based collision avoidance</li>
+            <li><strong>Swarm Coordination</strong> - Multi-drone coordination for coordinated missions</li>
+            <li><strong>GPS-Denied Navigation</strong> - Visual SLAM for indoor and denied environments</li>
+            <li><strong>Mission Planning</strong> - Autonomous waypoint navigation with failsafes</li>
+        </ul>
+        
+        <h2>Supported Airframes</h2>
+        
+        <h3>Multirotor</h3>
+        <ul>
+            <li><strong>Quadcopters</strong> (X, H, + configurations)</li>
+            <li><strong>Hexacopters</strong> (6 motors)</li>
+            <li><strong>Octocopters</strong> (8 motors)</li>
+            <li><strong>Tricopters</strong> (3 motors + servo)</li>
+        </ul>
+        
+        <h3>Fixed-Wing</h3>
+        <ul>
+            <li><strong>Standard Planes</strong> (Aileron, Elevator, Rudder)</li>
+            <li><strong>Flying Wings</strong> (Elevons)</li>
+            <li><strong>VTOL Tailsitters</strong></li>
+            <li><strong>VTOL Tiltrotors</strong></li>
+        </ul>
+        
+        <h2>Quick Start</h2>
+        
+        <h3>1. Install Cule OS UAV Edition</h3>
+        <pre><code># Download UAV edition image
+wget https://sanjaysparker27.github.io/cule-os/releases/cule-os-axon-v1.0.img.xz
+
+# Flash to SD card
+xzcat cule-os-axon-v1.0.img.xz | sudo dd of=/dev/sdX bs=4M status=progress</code></pre>
+        
+        <h3>2. Initial Configuration</h3>
+        <pre><code># SSH into Cule OS
+ssh cule@cule-os.local
+# Password: culeos
+
+# Run UAV configuration wizard
+sudo cule-config
+
+# Select options:
+# 1. Vehicle Type: UAV (Drone)
+# 2. Frame: Quadcopter X
+# 3. Flight Stack: ArduPilot
+# 4. GPS: u-blox NEO-M9N
+# 5. Telemetry: 915MHz</code></pre>
+        
+        <h3>3. Hardware Connections</h3>
+        
+        <p><strong>Minimum Required:</strong></p>
+        <ul>
+            <li>Flight Controller (Pixhawk 4/5/6) → USB to Jetson/RPi</li>
+            <li>GPS Module → UART on Pixhawk</li>
+            <li>Telemetry Radio → Telem1 on Pixhawk</li>
+            <li>RC Receiver → RC IN on Pixhawk</li>
+            <li>Camera → CSI/USB to Jetson/RPi</li>
+        </ul>
+        
+        <h3>4. First Flight Checklist</h3>
+        
+        <p>Before first flight:</p>
+        <ul>
+            <li>Compass calibration complete</li>
+            <li>Accelerometer calibration complete</li>
+            <li>Radio calibration complete</li>
+            <li>ESC calibration complete</li>
+            <li>GPS lock (3D fix minimum)</li>
+            <li>Battery voltage verified</li>
+            <li>Props secured (remove before calibration!)</li>
+            <li>Safety pilot ready</li>
+        </ul>
+        
+        <h2>Flight Modes</h2>
+        
+        <table>
+            <tr>
+                <th>Mode</th>
+                <th>Description</th>
+                <th>Use Case</th>
+            </tr>
+            <tr>
+                <td><strong>MANUAL</strong></td>
+                <td>Direct RC control, no stabilization</td>
+                <td>Testing, emergencies</td>
+            </tr>
+            <tr>
+                <td><strong>STABILIZE</strong></td>
+                <td>Self-leveling but manual throttle</td>
+                <td>Learning, manual flight</td>
+            </tr>
+            <tr>
+                <td><strong>ALT_HOLD</strong></td>
+                <td>Maintains altitude automatically</td>
+                <td>Photography, inspection</td>
+            </tr>
+            <tr>
+                <td><strong>LOITER</strong></td>
+                <td>Holds position and altitude</td>
+                <td>Waiting, observation</td>
+            </tr>
+            <tr>
+                <td><strong>AUTO</strong></td>
+                <td>Executes pre-programmed mission</td>
+                <td>Survey, mapping, delivery</td>
+            </tr>
+            <tr>
+                <td><strong>RTL</strong></td>
+                <td>Return to launch point</td>
+                <td>Low battery, signal loss</td>
+            </tr>
+            <tr>
+                <td><strong>LAND</strong></td>
+                <td>Controlled landing</td>
+                <td>End of mission</td>
+            </tr>
+            <tr>
+                <td><strong>GUIDED</strong></td>
+                <td>Ground station control</td>
+                <td>Follow-me, point-and-click</td>
+            </tr>
+            <tr>
+                <td><strong>CIRCLE</strong></td>
+                <td>Orbits a point of interest</td>
+                <td>Inspection, filming</td>
+            </tr>
+        </table>
+        
+        <div class="notice">
+            <strong>Next Steps:</strong> Continue to the <a href="quickstart.html">Quick Start Guide</a> for detailed setup instructions.
+        </div>
+    </main>
+</body>
+</html>

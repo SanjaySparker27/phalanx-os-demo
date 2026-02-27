@@ -1,323 +1,930 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Pet Partner | Indian Pet Marketplace</title>
-    <link
-      rel="preconnect"
-      href="https://fonts.googleapis.com"
-    />
-    <link
-      rel="preconnect"
-      href="https://fonts.gstatic.com"
-      crossorigin
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Space+Grotesk:wght@400;500;600&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="/src/styles.css" />
-  </head>
-  <body>
-    <div class="backdrop">
-      <span class="blob blob-one" aria-hidden="true"></span>
-      <span class="blob blob-two" aria-hidden="true"></span>
-      <span class="grid-overlay" aria-hidden="true"></span>
-    </div>
-
-    <header class="nav">
-      <div class="brand">
-        <span class="brand-mark">PP</span>
-        <div>
-          <p>Pet Partner</p>
-          <small>French aesthetic · Indian compliance</small>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cule OS — Autonomous Vehicle Operating System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --primary: #294172;
+            --primary-dark: #1a2a4a;
+            --primary-light: #3c6eb4;
+            --accent: #e59728;
+            --accent-hover: #d48920;
+            --text: #333;
+            --text-light: #666;
+            --bg: #fff;
+            --bg-gray: #f6f6f6;
+            --border: #e0e0e0;
+            --shadow: 0 4px 20px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 40px rgba(0,0,0,0.15);
+        }
+        
+        html { scroll-behavior: smooth; }
+        
+        body {
+            font-family: 'Open Sans', sans-serif;
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* Header */
+        header {
+            background: var(--primary);
+            padding: 12px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: white;
+        }
+        
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--accent);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: white;
+            font-size: 20px;
+        }
+        
+        .logo-text {
+            font-size: 22px;
+            font-weight: 700;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            color: rgba(255,255,255,0.9);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: color 0.2s;
+            padding: 8px 0;
+        }
+        
+        .nav-links a:hover {
+            color: white;
+        }
+        
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+        }
+        
+        .mobile-menu-toggle span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background: white;
+            transition: all 0.3s;
+        }
+        
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 140px 24px 100px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(229,151,40,0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        
+        .hero-badge {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 32px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .hero h1 {
+            font-size: 56px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            line-height: 1.1;
+        }
+        
+        .hero p {
+            font-size: 20px;
+            color: rgba(255,255,255,0.85);
+            max-width: 700px;
+            margin: 0 auto 40px;
+            line-height: 1.6;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+            padding: 16px 32px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s;
+            display: inline-block;
+            border: 2px solid var(--accent);
+        }
+        
+        .btn-primary:hover {
+            background: var(--accent-hover);
+            border-color: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(229,151,40,0.3);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            padding: 16px 32px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 16px;
+            border: 2px solid rgba(255,255,255,0.5);
+            transition: all 0.3s;
+            display: inline-block;
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: white;
+        }
+        
+        /* Section Styles */
+        .section-title {
+            text-align: center;
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 16px;
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-light);
+            font-size: 18px;
+            max-width: 600px;
+            margin: 0 auto 48px;
+        }
+        
+        /* Editions Section */
+        .editions {
+            padding: 100px 24px;
+            background: var(--bg);
+        }
+        
+        .editions-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+        }
+        
+        .edition-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 32px;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .edition-card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-4px);
+            border-color: var(--primary-light);
+        }
+        
+        .edition-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .edition-icon {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--primary-light), var(--primary));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            color: white;
+        }
+        
+        .edition-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .edition-desc {
+            color: var(--text-light);
+            margin-bottom: 24px;
+            line-height: 1.7;
+            flex-grow: 1;
+        }
+        
+        .edition-features {
+            list-style: none;
+            margin-bottom: 24px;
+        }
+        
+        .edition-features li {
+            padding: 6px 0;
+            color: var(--text);
+            font-size: 14px;
+            padding-left: 24px;
+            position: relative;
+        }
+        
+        .edition-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: 700;
+        }
+        
+        .edition-actions {
+            display: flex;
+            gap: 16px;
+            margin-top: auto;
+        }
+        
+        .edition-actions a {
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            transition: all 0.3s;
+        }
+        
+        .download-link {
+            background: var(--accent);
+            color: white;
+        }
+        
+        .download-link:hover {
+            background: var(--accent-hover);
+        }
+        
+        .learn-link {
+            background: transparent;
+            color: var(--primary);
+            border: 1px solid var(--border);
+        }
+        
+        .learn-link:hover {
+            background: var(--bg-gray);
+            border-color: var(--primary-light);
+        }
+        
+        /* Features Section */
+        .features {
+            padding: 100px 24px;
+            background: var(--bg-gray);
+        }
+        
+        .features-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 12px;
+            padding: 32px;
+            border: 1px solid var(--border);
+            transition: all 0.3s;
+        }
+        
+        .feature-card:hover {
+            box-shadow: var(--shadow);
+            transform: translateY(-2px);
+        }
+        
+        .feature-card h3 {
+            font-size: 18px;
+            color: var(--primary);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .feature-card h3 span {
+            font-size: 24px;
+        }
+        
+        .feature-card p {
+            color: var(--text-light);
+            font-size: 15px;
+            line-height: 1.6;
+        }
+        
+        .feature-card a {
+            color: var(--primary-light);
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 14px;
+            display: inline-block;
+            margin-top: 16px;
+        }
+        
+        .feature-card a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Support Section */
+        .support {
+            padding: 100px 24px;
+            background: var(--bg-gray);
+        }
+        
+        .support-grid {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+        
+        .support-card {
+            background: white;
+            border-radius: 12px;
+            padding: 40px 32px;
+            text-align: center;
+            border: 1px solid var(--border);
+            transition: all 0.3s;
+        }
+        
+        .support-card:hover {
+            box-shadow: var(--shadow);
+            transform: translateY(-4px);
+        }
+        
+        .support-icon {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, var(--primary-light), var(--primary));
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            margin: 0 auto 24px;
+            color: white;
+        }
+        
+        .support-card h3 {
+            font-size: 20px;
+            color: var(--primary);
+            margin-bottom: 12px;
+        }
+        
+        .support-card p {
+            color: var(--text-light);
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+        
+        .support-card a {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 12px 28px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        .support-card a:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--primary-dark);
+            color: white;
+            padding: 64px 24px 32px;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 48px;
+        }
+        
+        .footer-column h4 {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-column a {
+            color: rgba(255,255,255,0.75);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+        
+        .footer-column a:hover {
+            color: white;
+        }
+        
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 48px auto 0;
+            padding-top: 32px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+            color: rgba(255,255,255,0.6);
+            font-size: 14px;
+        }
+        
+        /* Mobile Navigation */
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            top: 64px;
+            left: 0;
+            right: 0;
+            background: var(--primary);
+            padding: 24px;
+            z-index: 999;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .mobile-nav.active {
+            display: block;
+        }
+        
+        .mobile-nav ul {
+            list-style: none;
+        }
+        
+        .mobile-nav li {
+            margin-bottom: 16px;
+        }
+        
+        .mobile-nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 600;
+            display: block;
+            padding: 8px 0;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .header-content {
+                padding: 0 16px;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .mobile-menu-toggle {
+                display: flex;
+            }
+            
+            .hero {
+                padding: 120px 20px 80px;
+            }
+            
+            .hero h1 {
+                font-size: 36px;
+            }
+            
+            .hero p {
+                font-size: 17px;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                width: 100%;
+                max-width: 300px;
+                margin: 0 auto;
+            }
+            
+            .hero-buttons a {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .section-title {
+                font-size: 28px;
+            }
+            
+            .section-subtitle {
+                font-size: 16px;
+            }
+            
+            .editions, .features, .support {
+                padding: 64px 20px;
+            }
+            
+            .edition-card, .feature-card, .support-card {
+                padding: 24px;
+            }
+            
+            .edition-actions {
+                flex-direction: column;
+            }
+            
+            .edition-actions a {
+                text-align: center;
+            }
+            
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 32px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 28px;
+            }
+            
+            .logo-text {
+                font-size: 18px;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">C</div>
+                <span class="logo-text">Cule OS</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#editions">Editions</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="docs.html">Documentation</a></li>
+                <li><a href="https://github.com/sanjaysparker27/cule-os/discussions" target="_blank">Community</a></li>
+                <li><a href="#support">Support</a></li>
+            </ul>
+            <button class="mobile-menu-toggle" aria-label="Toggle menu" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
         </div>
-      </div>
-      <nav>
-        <a href="#market">Marketplace</a>
-        <a href="#categories">Categories</a>
-        <a href="#compliance">Compliance</a>
-        <a href="#login">Login</a>
-      </nav>
-      <div class="nav-actions">
-        <button class="ghost" data-auth="seller">Seller Portal</button>
-        <button class="solid" data-auth="buyer">Login</button>
-        <div class="cart" aria-label="Cart">
-          <span class="cart-count" id="cart-count">0</span>
-          <span>Cart</span>
-        </div>
-      </div>
     </header>
+    
+    <nav class="mobile-nav" id="mobile-nav">
+        <ul>
+            <li><a href="#editions" onclick="closeMobileMenu()">Editions</a></li>
+            <li><a href="#features" onclick="closeMobileMenu()">Features</a></li>
+            <li><a href="docs.html" onclick="closeMobileMenu()">Documentation</a></li>
+            <li><a href="https://github.com/sanjaysparker27/cule-os/discussions" target="_blank" onclick="closeMobileMenu()">Community</a></li>
+            <li><a href="#support" onclick="closeMobileMenu()">Support</a></li>
+        </ul>
+    </nav>
 
-    <main class="page">
-      <section class="hero" id="home">
-        <div class="hero-copy">
-          <p class="eyebrow">Licensed pan-India live pet marketplace</p>
-          <h1>Adopt joy with Parisian elegance.</h1>
-          <p class="lede">
-            We curate only registered pet shops and licensed breeders, vet-cleared
-            animals, and compliance-first logistics — so you pick with heart, while
-            we guard the rules.
-          </p>
-          <div class="hero-actions">
-            <button class="solid" data-scroll="#market">Start browsing</button>
-            <button class="ghost" data-contact>Book a live video check</button>
-          </div>
-          <div class="hero-stats">
-            <div>
-              <strong>180+</strong>
-              <span>Verified breeders & pet shops</span>
+    <section class="hero" id="home">
+        <div class="hero-badge">100% Autonomous & Open Source</div>
+        <h1>It's your autonomous future.</h1>
+        <p>An innovative operating system for unmanned vehicles — aerial, ground, and maritime — built with multi-agent intelligence.</p>
+        <div class="hero-buttons">
+            <a href="download.html" class="btn-primary">Download Cule OS 1.0</a>
+            <a href="#editions" class="btn-secondary">Explore Editions</a>
+        </div>
+    </section>
+
+    <section class="editions" id="editions">
+        <h2 class="section-title">Choose Your Edition</h2>
+        <p class="section-subtitle">Purpose-built autonomous operating systems for every domain</p>
+        <div class="editions-grid">
+            <div class="edition-card">
+                <div class="edition-header">
+                    <div class="edition-icon">✈</div>
+                    <div class="edition-title">Axon UAV Edition</div>
+                </div>
+                <p class="edition-desc">The leading autonomous aerial platform for multirotor, fixed-wing, and VTOL vehicles. Features precision landing, obstacle avoidance, and swarm coordination.</p>
+                <ul class="edition-features">
+                    <li>Precision landing & obstacle avoidance</li>
+                    <li>Swarm coordination capabilities</li>
+                    <li>Multirotor, fixed-wing & VTOL support</li>
+                    <li>Real-time 1kHz control loop</li>
+                </ul>
+                <div class="edition-actions">
+                    <a href="docs/uav/index.html" class="download-link">Download Now</a>
+                    <a href="docs/uav/index.html" class="learn-link">Learn More</a>
+                </div>
             </div>
-            <div>
-              <strong>22</strong>
-              <span>States covered with licence checks</span>
+            
+            <div class="edition-card">
+                <div class="edition-header">
+                    <div class="edition-icon">◈</div>
+                    <div class="edition-title">Terra UGV Edition</div>
+                </div>
+                <p class="edition-desc">A robust autonomous ground platform for wheeled and tracked vehicles. Includes terrain adaptation, GPS-denied navigation, and long-endurance patrol.</p>
+                <ul class="edition-features">
+                    <li>Terrain adaptation algorithms</li>
+                    <li>GPS-denied navigation</li>
+                    <li>Long-endurance patrol modes</li>
+                    <li>Obstacle detection & avoidance</li>
+                </ul>
+                <div class="edition-actions">
+                    <a href="#" class="download-link" style="background:#ccc;cursor:not-allowed;" onclick="alert('Terra Edition coming soon!');return false;">Coming Soon</a>
+                    <a href="#" class="learn-link" onclick="alert('Terra Edition coming soon!');return false;">Learn More</a>
+                </div>
             </div>
-            <div>
-              <strong>48h</strong>
-              <span>Vet fit-to-travel certification window</span>
+            
+            <div class="edition-card">
+                <div class="edition-header">
+                    <div class="edition-icon">✧</div>
+                    <div class="edition-title">Aqua USV Edition</div>
+                </div>
+                <p class="edition-desc">A trusted maritime platform for surface and submersible vessels. Features wave compensation, COLREG compliance, and satellite communication.</p>
+                <ul class="edition-features">
+                    <li>Wave compensation systems</li>
+                    <li>COLREG compliance engine</li>
+                    <li>Satellite communication ready</li>
+                    <li>Autonomous docking</li>
+                </ul>
+                <div class="edition-actions">
+                    <a href="#" class="download-link" style="background:#ccc;cursor:not-allowed;" onclick="alert('Aqua Edition coming soon!');return false;">Coming Soon</a>
+                    <a href="#" class="learn-link" onclick="alert('Aqua Edition coming soon!');return false;">Learn More</a>
+                </div>
             </div>
-          </div>
-        </div>
-
-        <div class="hero-visual" aria-label="Animated pet showcase">
-          <div class="remotion-strip">
-            <div class="frame frame-one">
-              <p>Golden Retriever · Bengaluru</p>
-              <span>Vaccinated · Microchipped</span>
+            
+            <div class="edition-card">
+                <div class="edition-header">
+                    <div class="edition-icon">⚡</div>
+                    <div class="edition-title">Core Development</div>
+                </div>
+                <p class="edition-desc">The minimal, kernel-focused edition for researchers and developers. Provides the Cule Core RT scheduler and agent framework without vehicle-specific packages.</p>
+                <ul class="edition-features">
+                    <li>Cule Core RT scheduler</li>
+                    <li>Multi-agent framework</li>
+                    <li>No vehicle-specific packages</li>
+                    <li>Perfect for research</li>
+                </ul>
+                <div class="edition-actions">
+                    <a href="#" class="download-link" style="background:#ccc;cursor:not-allowed;" onclick="alert('Core Edition coming soon!');return false;">Coming Soon</a>
+                    <a href="#" class="learn-link" onclick="alert('Core Edition coming soon!');return false;">Learn More</a>
+                </div>
             </div>
-            <div class="frame frame-two">
-              <p>Persian Cat · Mumbai</p>
-              <span>Indoor only · Vet cleared</span>
+        </div>
+    </section>
+
+    <section class="features" id="features">
+        <h2 class="section-title">Platform Features</h2>
+        <p class="section-subtitle">Hardware variants, simulation tools, and cloud deployments</p>
+        <div class="features-grid">
+            <div class="feature-card">
+                <h3><span>💻</span> Hardware Variants</h3>
+                <p>Optimized images for NVIDIA Jetson AGX Orin, Xavier NX, Nano, Raspberry Pi 4/5, and x86 platforms with appropriate AI acceleration support.</p>
+                <a href="docs/hardware/index.html">View Setup Guide →</a>
             </div>
-            <div class="frame frame-three">
-              <p>Leopard Gecko · Pune</p>
-              <span>Captive bred · Care sheet</span>
+            <div class="feature-card">
+                <h3><span>🎮</span> Simulation Edition</h3>
+                <p>Gazebo and Ignition-based simulation environment for testing autonomy algorithms without risking hardware. Perfect for algorithm development.</p>
+                <a href="#" onclick="alert('Simulation guide coming soon!');return false;">Learn more →</a>
             </div>
-          </div>
-          <div class="timeline" aria-hidden="true">
-            <span class="tick"></span>
-            <span class="tick"></span>
-            <span class="tick"></span>
-          </div>
-          <div class="compliance-badge">
-            <p>AWBI & State licence required</p>
-            <small>Seller identity masked; documents verified.</small>
-          </div>
+            <div class="feature-card">
+                <h3><span>🧠</span> Training Tools</h3>
+                <p>Complete ML training pipeline for YOLO object detection, world models, and reinforcement learning policies. GPU-accelerated training.</p>
+                <a href="#" onclick="alert('Training tools coming soon!');return false;">View Training Resources →</a>
+            </div>
+            <div class="feature-card">
+                <h3><span>☁️</span> Cloud Images</h3>
+                <p>Pre-configured images for AWS, Azure, and GCP for ground station deployment and fleet management at scale.</p>
+                <a href="#" onclick="alert('Cloud deployment guide coming soon!');return false;">Learn more →</a>
+            </div>
+            <div class="feature-card">
+                <h3><span>📡</span> MAVLink Integration</h3>
+                <p>Full MAVLink protocol support for communication with ArduPilot, PX4, and other flight stacks. Telemetry and command routing.</p>
+                <a href="docs/api/index.html">View API Docs →</a>
+            </div>
+            <div class="feature-card">
+                <h3><span>🔧</span> Calibration Tools</h3>
+                <p>Automated calibration for ESCs, IMU, compass, cameras, and sensors. Step-by-step guided procedures with validation.</p>
+                <a href="docs/calibration/index.html">View Calibration Guide →</a>
+            </div>
         </div>
-      </section>
+    </section>
 
-      <section class="gallery" id="gallery">
-        <div class="section-head">
-          <p class="eyebrow">Nature-forward</p>
-          <h2>Happy companions in their element</h2>
-          <p class="hint">Real-life settings to set expectations for space, light, and care.</p>
+    <section class="support" id="support">
+        <h2 class="section-title">Support Resources</h2>
+        <p class="section-subtitle">Everything you need to get started with Cule OS</p>
+        <div class="support-grid">
+            <div class="support-card">
+                <div class="support-icon">📚</div>
+                <h3>Documentation</h3>
+                <p>Complete documentation covering installation, configuration, API reference, and step-by-step tutorials for all Cule OS editions.</p>
+                <a href="docs.html">View Docs</a>
+            </div>
+            <div class="support-card">
+                <div class="support-icon">💬</div>
+                <h3>Discussion Forum</h3>
+                <p>Join the community discussion forum to share projects, ask questions, and connect with other Cule OS developers and users.</p>
+                <a href="https://github.com/sanjaysparker27/cule-os/discussions" target="_blank">Join Forum</a>
+            </div>
+            <div class="support-card">
+                <div class="support-icon">🔧</div>
+                <h3>Troubleshooting</h3>
+                <p>Common issues and solutions for Cule OS installation, configuration, and operation. Find answers to frequently asked questions.</p>
+                <a href="docs/troubleshooting.html">Get Help</a>
+            </div>
         </div>
-        <div class="gallery-grid">
-          <figure class="gallery-card">
-            <img src="https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&w=1200&q=80" alt="Golden Retriever sitting in a park" />
-            <figcaption class="label">Dogs</figcaption>
-          </figure>
-          <figure class="gallery-card">
-            <img src="https://images.unsplash.com/photo-1518791841217-8f162f1e1131?auto=format&fit=crop&w=1200&q=80" alt="Persian cat on a sofa" />
-            <figcaption class="label">Cats</figcaption>
-          </figure>
-          <figure class="gallery-card">
-            <img src="https://images.unsplash.com/photo-1508672019048-805c876b67e2?auto=format&fit=crop&w=1200&q=80" alt="Group of colorful parrots" />
-            <figcaption class="label">Birds (Exotic)</figcaption>
-          </figure>
-          <figure class="gallery-card">
-            <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=1200&q=80" alt="Koi fish swimming in a pond" />
-            <figcaption class="label">Aquatics</figcaption>
-          </figure>
-          <figure class="gallery-card">
-            <img src="https://images.unsplash.com/photo-1508186225823-0963cf9ab0de?auto=format&fit=crop&w=1200&q=80" alt="Rabbit and guinea pig together on grass" />
-            <figcaption class="label">Small Pets</figcaption>
-          </figure>
-          <figure class="gallery-card">
-            <img src="https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&w=1200&q=80" alt="Bearded dragon on a rock" />
-            <figcaption class="label">Reptiles</figcaption>
-          </figure>
-        </div>
-      </section>
+    </section>
 
-      <section class="filters" id="market">
-        <div class="filters-head">
-          <div>
-            <p class="eyebrow">Live & ready</p>
-            <h2>Choose your companion</h2>
-            <p class="hint">Filter by species, breed, gender, age, colour, and state.</p>
-          </div>
-          <div class="status-chip" id="results-count">0 companions</div>
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h4>Download</h4>
+                <ul>
+                    <li><a href="docs/uav/index.html">Axon UAV Edition</a></li>
+                    <li><a href="#" onclick="alert('Coming soon!');return false;">Terra UGV Edition</a></li>
+                    <li><a href="#" onclick="alert('Coming soon!');return false;">Aqua USV Edition</a></li>
+                    <li><a href="#" onclick="alert('Coming soon!');return false;">Core Development</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Documentation</h4>
+                <ul>
+                    <li><a href="docs.html">Getting Started</a></li>
+                    <li><a href="docs/hardware/index.html">Hardware Setup</a></li>
+                    <li><a href="docs/uav/index.html">UAV Configuration</a></li>
+                    <li><a href="docs/calibration/index.html">Calibration</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Operations</h4>
+                <ul>
+                    <li><a href="docs/uav/quickstart.html">First Flight</a></li>
+                    <li><a href="docs/troubleshooting.html">Troubleshooting</a></li>
+                    <li><a href="docs/api/index.html">API Reference</a></li>
+                    <li><a href="docs/uav/flight-modes.html">Flight Modes</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Community</h4>
+                <ul>
+                    <li><a href="https://github.com/sanjaysparker27/cule-os" target="_blank">GitHub</a></li>
+                    <li><a href="https://github.com/sanjaysparker27/cule-os/discussions" target="_blank">Discussions</a></li>
+                    <li><a href="https://sanjaysparker27.github.io/sanjay-sparker-portfolio" target="_blank">Developer</a></li>
+                    <li><a href="mailto:sanjay.sparker27@gmail.com">Contact</a></li>
+                </ul>
+            </div>
         </div>
-        <div class="filter-grid">
-          <label>
-            Species
-            <select id="filter-species"></select>
-          </label>
-          <label>
-            Breed
-            <select id="filter-breed"></select>
-          </label>
-          <label>
-            Gender
-            <select id="filter-gender">
-              <option value="all">Any</option>
-              <option value="female">Female</option>
-              <option value="male">Male</option>
-            </select>
-          </label>
-          <label>
-            Age
-            <select id="filter-age">
-              <option value="all">Any</option>
-              <option value="0-6">Up to 6 months</option>
-              <option value="6-12">6–12 months</option>
-              <option value="12-36">1–3 years</option>
-              <option value="36+">3+ years</option>
-            </select>
-          </label>
-          <label>
-            Colour
-            <select id="filter-colour"></select>
-          </label>
-          <label>
-            State
-            <select id="filter-state"></select>
-          </label>
-          <div class="filter-actions">
-            <button class="ghost" id="reset-filters">Reset filters</button>
-            <button class="solid" data-auth="buyer">Login to reserve</button>
-          </div>
+        <div class="footer-bottom">
+            <p>© 2026 Cule OS. Built for autonomous vehicles. Created by <a href="https://sanjaysparker27.github.io/sanjay-sparker-portfolio" target="_blank" style="color: var(--accent);">Sanjay</a>.</p>
         </div>
-
-        <div class="card-grid" id="pet-grid" aria-live="polite"></div>
-      </section>
-
-      <section class="categories" id="categories">
-        <div class="section-head">
-          <p class="eyebrow">By the book</p>
-          <h2>Categories allowed across India</h2>
-          <p class="hint">
-            Only domesticated or lawfully imported exotics with proof of captive breeding;
-            native wildlife is blocked automatically.
-          </p>
-        </div>
-        <div class="category-grid">
-          <article class="category-card">
-            <h3>Dogs</h3>
-            <p>KC-registered breeds & Indies; 8+ weeks, microchip + DHPPiL shots.</p>
-          </article>
-          <article class="category-card">
-            <h3>Cats</h3>
-            <p>Persian, Siamese, Ragdoll, Indie; FVRCP + FeLV, indoor-first policy.</p>
-          </article>
-          <article class="category-card">
-            <h3>Small Pets</h3>
-            <p>Hamsters, rabbits, guinea pigs, hedgehogs, sugar gliders (declared exotics).</p>
-          </article>
-          <article class="category-card">
-            <h3>Birds (Exotic)</h3>
-            <p>Budgies, cockatiels, lovebirds, finches; no Indian native species.</p>
-          </article>
-          <article class="category-card">
-            <h3>Aquatics</h3>
-            <p>Freshwater & marine ornamentals from permitted lists; oxygen-packed transport.</p>
-          </article>
-          <article class="category-card">
-            <h3>Reptiles</h3>
-            <p>Captive-bred leopard geckos, corn snakes, bearded dragons; care sheets mandated.</p>
-          </article>
-        </div>
-      </section>
-
-      <section class="compliance" id="compliance">
-        <div class="section-head">
-          <p class="eyebrow">Compliance-first</p>
-          <h2>How we keep it legal</h2>
-        </div>
-        <div class="steps">
-          <article>
-            <h3>Licence gate</h3>
-            <p>Every seller uploads State Pet Shop licence or breeder permit; platform verifies validity and expiry.</p>
-          </article>
-          <article>
-            <h3>Vet sign-off</h3>
-            <p>Fitness-to-travel certificate & vaccination log required per listing; buyers see health card before paying.</p>
-          </article>
-          <article>
-            <h3>Masked identity</h3>
-            <p>Seller name stays hidden; grievance redressal and emergency contact remain visible as per IT rules.</p>
-          </article>
-          <article>
-            <h3>Species blocklist</h3>
-            <p>Schedule I–IV wildlife, native birds, and undeclared exotics are auto-rejected with audit trail.</p>
-          </article>
-        </div>
-      </section>
-
-      <section class="cta" id="login">
-        <div>
-          <h2>Log in or join as a vetted seller</h2>
-          <p>Unified portal for buyers, breeders, and pet shops with document locker & renewal reminders.</p>
-        </div>
-        <div class="cta-actions">
-          <button class="solid" data-auth="buyer">Login</button>
-          <button class="ghost" data-auth="seller">Apply as seller</button>
-        </div>
-      </section>
-    </main>
-
-    <div class="lightbox hidden" id="lightbox" role="dialog" aria-modal="true" aria-label="Pet photos">
-      <div class="lightbox__content">
-        <button class="lightbox__close" aria-label="Close gallery">×</button>
-        <div class="lightbox__image-wrap">
-          <img id="lightbox-image" src="" alt="" />
-          <p id="lightbox-caption"></p>
-        </div>
-        <div class="lightbox__controls">
-          <button id="lightbox-prev" aria-label="Previous image">‹</button>
-          <button id="lightbox-next" aria-label="Next image">›</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="modal hidden" id="auth-modal" role="dialog" aria-modal="true" aria-label="Authentication">
-      <div class="modal__card">
-        <div class="modal__header">
-          <h3 id="auth-title">Login</h3>
-          <button class="modal__close" id="auth-close" aria-label="Close">×</button>
-        </div>
-        <form id="auth-form">
-          <label>
-            Email
-            <input type="email" required placeholder="you@example.com" />
-          </label>
-          <label>
-            Password
-            <input type="password" required placeholder="••••••••" />
-          </label>
-          <label>
-            Role
-            <select id="auth-role">
-              <option value="buyer">Buyer</option>
-              <option value="seller">Seller / Breeder</option>
-            </select>
-          </label>
-          <button type="submit" class="solid">Continue</button>
-        </form>
-      </div>
-    </div>
-
-    <footer class="footer">
-      <p>© 2026 Pet Partner. Built for India, inspired by France.</p>
-      <div class="footer-links">
-        <a href="#compliance">Compliance Center</a>
-        <a href="#categories">Categories</a>
-        <a href="#market">Marketplace</a>
-      </div>
     </footer>
-
-    <script type="module" src="/src/main.js"></script>
-  </body>
+    
+    <script>
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            const mobileNav = document.getElementById('mobile-nav');
+            mobileNav.classList.toggle('active');
+        }
+        
+        function closeMobileMenu() {
+            const mobileNav = document.getElementById('mobile-nav');
+            mobileNav.classList.remove('active');
+        }
+        
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const mobileNav = document.getElementById('mobile-nav');
+            const toggle = document.querySelector('.mobile-menu-toggle');
+            
+            if (!mobileNav.contains(event.target) && !toggle.contains(event.target)) {
+                mobileNav.classList.remove('active');
+            }
+        });
+        
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href !== '#') {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        const headerOffset = 80;
+                        const elementPosition = target.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                        
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                }
+            });
+        });
+        
+        // Header background on scroll
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 50) {
+                header.style.background = 'rgba(41, 65, 114, 0.98)';
+            } else {
+                header.style.background = 'var(--primary)';
+            }
+        });
+    </script>
+</body>
 </html>
