@@ -1,138 +1,80 @@
 # Cule OS Documentation
 
-Welcome to the Cule OS documentation. Cule OS is an innovative operating system for autonomous unmanned vehicles — aerial, ground, and maritime — built with multi-agent intelligence.
+Welcome to the **Cule OS** documentation — a modern, lightweight operating system designed for performance, security, and developer productivity.
 
 ## Quick Start
 
-New to Cule OS? Start here:
+```bash
+# Install Cule OS
+curl -fsSL https://get.cule-os.io | bash
 
-- **[Getting Started](GETTING_STARTED.md)** — Get up and running in 30 minutes
-- **[Installation Guide](installation.md)** — Detailed installation instructions
-- **[Quick Start (UAV)](uav/quickstart.md)** — UAV-specific quick start
+# Verify installation
+cule --version
+```
 
-## Documentation Sections
+## Documentation Structure
 
-### 🚁 UAV / Drone (Axon Edition)
+| Document | Description | Audience |
+|----------|-------------|----------|
+| [Installation](./installation.md) | Step-by-step installation guide | New Users |
+| [Configuration](./configuration.md) | System and service configuration | Administrators |
+| [Architecture](./architecture.md) | System design and internals | Developers, Architects |
+| [API Reference](./api.md) | Complete API documentation | Developers |
 
-Complete documentation for autonomous aerial vehicles.
+## Core Features
 
-| Guide | Description |
-|-------|-------------|
-| [UAV Overview](uav/README.md) | Introduction to Axon UAV Edition |
-| [Quick Start](uav/quickstart.md) | 30-minute setup guide |
-| [Flight Modes](uav/flight-modes.md) | All flight modes explained |
-| [Mission Planning](uav/missions.md) | Create autonomous missions |
-| [Safety Procedures](uav/safety.md) | Pre-flight checklists & emergencies |
-| [Troubleshooting](uav/troubleshooting.md) | Fix common issues |
+### 🚀 Performance
+- **Microkernel Architecture**: Minimal kernel footprint with services running in user space
+- **Zero-Copy I/O**: Efficient data transfer mechanisms
+- **Adaptive Scheduling**: AI-driven process scheduling for optimal resource utilization
 
-### 🔧 Hardware Setup
+### 🔒 Security
+- **Capability-Based Access Control**: Fine-grained permission system
+- **Secure Boot**: Cryptographic verification of system components
+- **Sandboxing**: Application-level isolation by default
 
-Configure your hardware for Cule OS.
-
-| Component | Documentation |
-|-----------|--------------|
-| [Flight Controllers](hardware/flight-controllers.md) | Pixhawk, Cube Orange setup |
-| [Companion Computers](hardware/companion-computers.md) | Jetson & Raspberry Pi |
-| [Sensors](uav/sensors/) | GPS, IMU, compass, barometer |
-| [Wiring](hardware/wiring.md) | Connection diagrams |
-
-### 💻 API & Development
-
-Integrate with Cule OS programmatically.
-
-| Resource | Description |
-|----------|-------------|
-| [API Reference](api.md) | Python API, ROS2 topics, CLI |
-| [Architecture](architecture.md) | System architecture overview |
-| [Configuration](configuration.md) | System configuration guide |
-| [Examples](../examples/) | Working code examples |
+### 🛠 Developer Experience
+- **Unified CLI**: Single command-line interface for all operations
+- **Hot Reload**: Configuration changes without restart
+- **Built-in Observability**: Tracing, metrics, and logging out of the box
 
 ## System Requirements
 
-### Minimum Hardware
+| Component | Minimum | Recommended |
+|-----------|---------|-------------|
+| CPU | 2 cores | 4+ cores |
+| RAM | 4 GB | 8+ GB |
+| Storage | 20 GB SSD | 50+ GB NVMe |
+| Network | 100 Mbps | 1 Gbps |
 
-- **Companion Computer**: NVIDIA Jetson Nano or Raspberry Pi 4
-- **Flight Controller**: Pixhawk 4/5/6 or Cube Orange
-- **GPS**: u-blox NEO-M8N or better
-- **Storage**: 32GB microSD card (Class 10)
-- **Power**: 5V 4A power supply
+## Version Compatibility
 
-### Supported Vehicles
+| Cule OS Version | Kernel | CLI Version | Support Status |
+|-----------------|--------|-------------|----------------|
+| 2.x (current) | 6.5+ | 2.x | ✅ Active |
+| 1.x | 5.15+ | 1.x | ⚠️ Maintenance |
+| 0.x | 5.4+ | 0.x | ❌ End of Life |
 
-- **Multirotor**: Quadcopter, Hexacopter, Octocopter
-- **Fixed-Wing**: Standard planes, flying wings, VTOL
-- **Ground**: Rovers, crawlers
-- **Maritime**: Surface vessels, boats
+## Getting Help
 
-## Installation
-
-### 1. Download
-
-```bash
-# UAV Edition - NVIDIA Jetson
-wget https://sanjaysparker27.github.io/cule-os/releases/cule-os-axon-jetson-v1.0.img.xz
-
-# UAV Edition - Raspberry Pi
-wget https://sanjaysparker27.github.io/cule-os/releases/cule-os-axon-rpi-v1.0.img.xz
-```
-
-### 2. Flash SD Card
-
-```bash
-# Linux/Mac
-xzcat cule-os-axon-jetson-v1.0.img.xz | sudo dd of=/dev/sdX bs=4M status=progress
-
-# Windows: Use BalenaEtcher
-```
-
-### 3. Configure
-
-```bash
-# SSH into Cule OS
-ssh cule@cule-os.local
-# Password: culeos
-
-# Run configuration wizard
-sudo cule-config
-```
-
-## Quick Commands
-
-```bash
-# Check system status
-cule-status
-
-# Arm the vehicle
-cule-arm
-
-# Takeoff (UAV)
-cule-takeoff 10
-
-# Change flight mode
-cule-mode loiter
-
-# Return to launch
-cule-rtl
-
-# Land
-cule-land
-```
-
-## Community & Support
-
-- **Website**: https://sanjaysparker27.github.io/cule-os
-- **GitHub**: https://github.com/SanjaySparker27/cule-os
-- **Discussions**: https://github.com/SanjaySparker27/cule-os/discussions
-- **Issues**: https://github.com/SanjaySparker27/cule-os/issues
+- **Documentation**: [docs.cule-os.io](https://docs.cule-os.io)
+- **GitHub Issues**: [github.com/cule-os/issues](https://github.com/cule-os/issues)
+- **Community Discord**: [discord.gg/cule-os](https://discord.gg/cule-os)
+- **Email Support**: support@cule-os.io
 
 ## Contributing
 
-We welcome contributions! See our [Contributing Guide](CONTRIBUTING.md) for details.
+We welcome contributions! Please see our [Contributing Guide](https://github.com/cule-os/contributing) for details on:
+
+- Code of Conduct
+- Development workflow
+- Pull request process
+- Commit message conventions
 
 ## License
 
-Cule OS is proprietary software. See [LICENSE](../LICENSE) for details.
+Cule OS is licensed under the **MIT License**. See [LICENSE](./LICENSE) for full details.
 
 ---
 
-**Ready to start?** → [Getting Started Guide](GETTING_STARTED.md)
+*Last updated: February 2026*
